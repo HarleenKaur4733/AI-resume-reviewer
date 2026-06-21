@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.ai.document.Document;
+import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,17 +16,20 @@ public class ResumeReviewService {
     private final ChatService chatService;
     private final PdfService pdfService;
     private final ChunkingService chunkingService;
+    private final EmbeddingModel embeddingModel;
 
     public ResumeReviewService(
             PromptService promptService,
             ChatService chatService,
             PdfService pdfService,
-            ChunkingService chunkingService) {
+            ChunkingService chunkingService,
+            EmbeddingModel embeddingModel) {
 
         this.promptService = promptService;
         this.chatService = chatService;
         this.pdfService = pdfService;
         this.chunkingService = chunkingService;
+        this.embeddingModel = embeddingModel;
     }
 
     public String reviewResume(
@@ -44,25 +48,34 @@ public class ResumeReviewService {
         Document resumeDocument = new Document(resumeText, metadata);
         List<Document> chunks = chunkingService.chunk(resumeDocument);
 
-        System.out.println("Total Chunks = " + chunks.size());
+        // System.out.println("Total Chunks = " + chunks.size());
 
-        for (int i = 0; i < chunks.size(); i++) {
-            System.out.println("\n========== CHUNK " + (i + 1) + " ==========");
+        // for (int i = 0; i < chunks.size(); i++) {
+        // System.out.println("\n========== CHUNK " + (i + 1) + " ==========");
 
-            String text = chunks.get(i).getText();
+        // String text = chunks.get(i).getText();
 
-            System.out.println(
-                    text.substring(
-                            0,
-                            Math.min(300, text.length())));
+        // System.out.println(
+        // text.substring(
+        // 0,
+        // Math.min(300, text.length())));
 
-            System.out.println("\n=============================");
-        }
+        // System.out.println("\n=============================");
+        // }
 
-        System.out.println(resumeDocument.getText());
+        // System.out.println(resumeDocument.getText());
+
+        // System.out.println(
+        // resumeDocument.getMetadata());
+
+        Document firstChunk = chunks.get(0);
+
+        float[] embedding = embeddingModel.embed(
+                firstChunk.getText());
 
         System.out.println(
-                resumeDocument.getMetadata());
+                "Vector Size = "
+                        + embedding.length);
 
         String prompt = promptService
                 .buildResumeReviewPrompt(
