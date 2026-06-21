@@ -6,6 +6,7 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+// creates an in-memory vector database
 @Configuration
 public class VectorStoreConfig {
 
