@@ -83,6 +83,8 @@ public class ResumeReviewService {
                                                 chunks.size() +
                                                 " chunks in VectorStore");
 
+                // (Retrieval) retrieve relevant chunks from vector store using similarity
+                // search
                 List<Document> results = vectorStore.similaritySearch(
                                 "Spring Security");
                 for (Document doc : results) {
