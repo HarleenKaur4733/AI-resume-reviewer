@@ -46,6 +46,7 @@ Gemini
     ↓
 AI Generated Response
 ```
+<img width="1000" height="382" alt="image" src="https://github.com/user-attachments/assets/7875c261-167b-4483-820d-d3453f9ad9b2" />
 
 ## Example Queries
 
@@ -96,3 +97,5 @@ Response:
   "answer": "Yes, the candidate has experience with Spring Security, JWT authentication, and role-based access control."
 }
 ```
+
+
